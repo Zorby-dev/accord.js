@@ -1,0 +1,24 @@
+{
+  "name": "disorder.js",
+  "version": "0.0.3",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "tsnode test/index.ts",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "discord.js": "^13.6.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "package.json"
+  ]
+}
