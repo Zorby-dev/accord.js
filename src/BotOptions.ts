@@ -1,9 +1,14 @@
+import { IntentsString } from "discord.js"
+
 type Enabled = "enabled"
 type Disabled = "disabled"
 type Toggle = Enabled | Disabled
 
-export type ConfigOptions<TConfig> = { path: string, default: TConfig }
-    & (({ autoSave: true, autoSaveRate: number }) | ({ autoSave: false }))
+export type ConfigOptions<TConfig> = {
+    path: string
+    default: TConfig
+    autoSave: { rate: number } | Disabled
+}
 
 export type StateOptions<TGlobalState, TGuildState> = {
     default: {
@@ -16,26 +21,36 @@ export type TokenOptions = { from: "env", variable: string }
     | { from: "json", file: string, path: string }
 
 type BuiltinCommands = "help"
-export type FeatureOptions = ({
+export type FeatureOptions = {
+    events: {
+        folder: string
+    }
     commands: {
-        enabled: true
         folder: string
         builtin?: BuiltinCommands[]
-    },
-} | { commands: { enabled: false } }) & ({
+    } | Disabled,
     errorHandling?: {
-        enabled: true
         log?: Toggle
         discordMessage?: Toggle | "pretty"
-    }
-} | { errorHandling?: { enabled: false } })
+    } | Disabled
+}
+
+export type IntentOptions = {
+    dm: Toggle,
+    guild: {
+        messages: Toggle,
+        members: Toggle,
+        voice: Toggle,
+        details: Toggle
+    } | Disabled
+}
 
 export type BotOptions<TConfig, TGlobalState, TGuildState> = {
+    token: TokenOptions
+    intents: IntentOptions
     config: ConfigOptions<TConfig>
     state: StateOptions<TGlobalState, TGuildState>
-    token: TokenOptions
     features: FeatureOptions
-    eventsFolder: string
 }
 
 interface BotData<GlobalData, GuildData> {
@@ -47,3 +62,23 @@ interface BotData<GlobalData, GuildData> {
 
 export type BotState<GlobalState, GuildState> = BotData<GlobalState, GuildState>
 export type BotConfig<TConfig> = BotData<TConfig, { [propName: string]: any }>
+
+export function DisorderIntentsToDiscordIntents(intents: IntentOptions): IntentsString[] {
+    let discord_intents: IntentsString[] = []
+
+    if (intents.dm == "enabled")
+        discord_intents.push("DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS", "DIRECT_MESSAGE_TYPING")
+    if (intents.guild != "disabled") {
+        discord_intents.push("GUILDS")
+        if (intents.guild.members == "enabled")
+            discord_intents.push("GUILD_MEMBERS", "GUILD_BANS", "GUILD_PRESENCES")
+        if (intents.guild.messages == "enabled")
+            discord_intents.push("GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_MESSAGE_TYPING")
+        if (intents.guild.details == "enabled")
+            discord_intents.push("GUILD_EMOJIS_AND_STICKERS", "GUILD_INTEGRATIONS", "GUILD_INVITES", "GUILD_SCHEDULED_EVENTS", "GUILD_WEBHOOKS")
+        if (intents.guild.voice == "enabled")
+            discord_intents.push("GUILD_VOICE_STATES")
+    }
+
+    return discord_intents
+}

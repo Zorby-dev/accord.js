@@ -1,43 +1,51 @@
 import { Bot } from "../.."
 
 interface Config {
-
+    prefix: string
 }
 
-interface State {
-    eh: string
+interface GlobalState {
+    joinedChannels: string[]
 }
 
-export const bot = new Bot<Config, State, {}>({
+export const bot = new Bot<Config, GlobalState, {}>({
     config: {
-        path: "./config.json",
-        autoSave: true,
-        autoSaveRate: 1,
-        default: {}
+        path:     "./config.json",
+        autoSave: "disabled",
+        default: {
+            prefix: "!",
+        },
     },
     state: {
         default: {
             global: {
-                eh: "dfsf"
+                joinedChannels: [],
             },
-            guild: {}
-        }
+            guild: {},
+        },
     },
     token: {
-        from: "env",
+        from:     "env",
         variable: "TOKEN",
     },
     features: {
+        events: { folder: "fsdfsdf" },
         commands: {
-            enabled: true,
-            folder: "",
-            builtin: ["help"]
+            folder:  "",
+            builtin: ["help"],
         },
         errorHandling: {
-            enabled: true,
-            log: "enabled",
-            discordMessage: "pretty"
-        }
+            log:            "enabled",
+            discordMessage: "pretty",
+        },
     },
-    eventsFolder: "fdsfdf"
+    intents: {
+        dm: "disabled",
+        guild: {
+            messages: "enabled",
+            members:  "disabled",
+            details:  "disabled",
+            voice:    "disabled",
+        },
+    }
 })

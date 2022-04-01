@@ -15,8 +15,8 @@ export default class Config<TConfig> {
 
         this.path = options.path
 
-        if (options.autoSave) {
-            this.autoSaveRate = options.autoSaveRate
+        if (options.autoSave != "disabled") {
+            this.autoSaveRate = options.autoSave.rate
             this.autoSaveLoop = setInterval(() => this.save(), this.autoSaveRate * 3_600_000)
         }
         else {

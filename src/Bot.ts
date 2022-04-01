@@ -1,25 +1,20 @@
 import { Client } from "discord.js";
-import { BotState, BotOptions } from "./BotOptions";
+import { BotOptions, DisorderIntentsToDiscordIntents } from "./BotOptions";
 import Config from "./Config";
+import State from "./State";
 
-export class Bot<TConfig, GlobalState, GuildState> {
+export class Bot<TConfig, TGlobalState, TGuildState> {
     public config: Config<TConfig>
-    public state: BotState<GlobalState, GuildState>
+    public state: State<TGlobalState, TGuildState>
 
     private client: Client
 
-    public constructor(options: BotOptions<TConfig, GlobalState, GuildState>) {
+    public constructor(options: BotOptions<TConfig, TGlobalState, TGuildState>) {
         this.config = new Config<TConfig>(options.config)
-
-        this.state = {
-            guilds: {},
-            global: options.state.default.global
-        }
+        this.state = new State<TGlobalState, TGuildState>(options.state)
 
         this.client = new Client({
-            intents: [
-
-            ]
+            intents: DisorderIntentsToDiscordIntents(options.intents)
         })
     }
 
