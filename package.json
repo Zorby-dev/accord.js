@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "tsnode test/index.ts",
+    "test": "ts-node src/test/index.ts",
     "build": "tsc",
     "prepublish": "npm run build"
   },
@@ -18,7 +18,7 @@
   },
   "files": [
     "dist",
-    "src",
+    "src/main",
     "package.json"
   ]
 }
