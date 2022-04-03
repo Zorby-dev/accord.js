@@ -17,12 +17,12 @@ export class SymbolNode extends TreeNode {
 
 export class StringNode extends TreeNode {
     public spaces: boolean
-    public constructor(next: CSTNode[], spaces: boolean){
+    public constructor(next: CSTNode[], spaces: boolean) {
         super(next)
         this.spaces = spaces
     }
- }
+}
 
-export class NumberNode extends TreeNode { }
+export class NumberNode extends TreeNode {}
 
 export type CSTNode = SymbolNode | StringNode | NumberNode | TreeNode

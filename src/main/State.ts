@@ -1,5 +1,5 @@
-import { Guild } from "discord.js";
-import { BotState, StateOptions } from "./BotOptions";
+import { Guild } from "discord.js"
+import { BotState, StateOptions } from "./BotOptions"
 
 export default class State<TGlobalSTate, TGuildState> {
     private state: BotState<TGlobalSTate, TGuildState>

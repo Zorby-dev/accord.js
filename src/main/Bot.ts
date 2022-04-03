@@ -1,7 +1,7 @@
-import { Client } from "discord.js";
-import { BotOptions, DisorderIntentsToDiscordIntents } from "./BotOptions";
-import Config from "./Config";
-import State from "./State";
+import { Client } from "discord.js"
+import { BotOptions, DisorderIntentsToDiscordIntents } from "./BotOptions"
+import Config from "./Config"
+import State from "./State"
 
 export class Bot<TConfig, TGlobalState, TGuildState> {
     public config: Config<TConfig>
@@ -18,7 +18,5 @@ export class Bot<TConfig, TGlobalState, TGuildState> {
         })
     }
 
-    public start() {
-
-    }
+    public start() {}
 }

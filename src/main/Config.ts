@@ -1,5 +1,5 @@
-import { Guild } from "discord.js";
-import { BotConfig, ConfigOptions } from "./BotOptions";
+import { Guild } from "discord.js"
+import { BotConfig, ConfigOptions } from "./BotOptions"
 
 export default class Config<TConfig> {
     private config: BotConfig<TConfig>
@@ -18,8 +18,7 @@ export default class Config<TConfig> {
         if (options.autoSave != "disabled") {
             this.autoSaveRate = options.autoSave.rate
             this.autoSaveLoop = setInterval(() => this.save(), this.autoSaveRate * 3_600_000)
-        }
-        else {
+        } else {
             this.autoSaveLoop = null
         }
     }
@@ -32,11 +31,7 @@ export default class Config<TConfig> {
         }
     }
 
-    public load() {
+    public load() {}
 
-    }
-
-    public save() {
-
-    }
+    public save() {}
 }

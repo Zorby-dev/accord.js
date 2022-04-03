@@ -7,18 +7,24 @@
   "scripts": {
     "test": "ts-node src/test/index.ts",
     "build": "tsc",
+    "fmt": "prettier --write src",
     "prepublish": "npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^17.0.21",
     "discord.js": "^13.6.0"
   },
   "files": [
     "dist",
     "src/main",
     "package.json"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
 }
