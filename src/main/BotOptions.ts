@@ -17,7 +17,7 @@ export type StateOptions<TGlobalState, TGuildState> = {
     }
 }
 
-export type TokenOptions = { from: "env"; variable: string } | { from: "json"; file: string; path: string }
+export type TokenOptions = { from: "env"; variable: string } | { from: "json"; file: string; property: string } | string
 
 type BuiltinCommands = "help"
 export type FeatureOptions = {
@@ -36,6 +36,7 @@ export type FeatureOptions = {
               discordMessage?: Toggle | "pretty"
           }
         | Disabled
+    logger?: Toggle
 }
 
 export type IntentOptions = {
@@ -68,14 +69,14 @@ interface BotData<GlobalData, GuildData> {
 export type BotState<GlobalState, GuildState> = BotData<GlobalState, GuildState>
 export type BotConfig<TConfig> = BotData<TConfig, { [propName: string]: any }>
 
-export function DisorderIntentsToDiscordIntents(intents: IntentOptions): IntentsString[] {
+export function AccordIntentsToDiscordIntents(intents: IntentOptions): IntentsString[] {
     let discord_intents: IntentsString[] = []
 
     if (intents.dm == "enabled")
         discord_intents.push("DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS", "DIRECT_MESSAGE_TYPING")
     if (intents.guild != "disabled") {
         discord_intents.push("GUILDS")
-        if (intents.guild.members == "enabled") discord_intents.push("GUILD_MEMBERS", "GUILD_BANS", "GUILD_PRESENCES")
+        if (intents.guild.members == "enabled") discord_intents.push(/*"GUILD_MEMBERS",*/ "GUILD_BANS", /*"GUILD_PRESENCES"*/)
         if (intents.guild.messages == "enabled")
             discord_intents.push("GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_MESSAGE_TYPING")
         if (intents.guild.details == "enabled")

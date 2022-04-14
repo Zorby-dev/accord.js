@@ -4,6 +4,10 @@ export class TreeNode {
     public constructor(next: CSTNode[]) {
         this.next = next
     }
+
+    public push(...node: CSTNode[]) {
+        this.next.push(...node)
+    }
 }
 
 export class SymbolNode extends TreeNode {

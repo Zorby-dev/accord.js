@@ -1,6 +1,6 @@
 {
-  "name": "disorder.js",
-  "version": "0.0.3",
+  "name": "@accord.js/core",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^13.6.0"
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
   },
   "files": [
     "dist",

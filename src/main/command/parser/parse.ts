@@ -1,25 +1,26 @@
 import { CSTNode, SymbolNode } from "./Node"
 import "../../prototype"
 
-export default function parse(input: string, CST: CSTNode) {
+export default function parse(input: string, CST: CSTNode): boolean {
     let index = 0
-    let matches = CST.next
-    let oldMatches = matches
+    let matches = [...CST.next]
 
-    console.log(`Matches: ${matches.map(x => (x as SymbolNode).value).join(", ")}\n`)
-
-    for (let char of input) {
-        oldMatches = matches
-
-        console.log(`Parsing character '${char}'`)
-        for (let match of oldMatches) {
+    outer: for (let char of input) {
+        for (let match of matches) {
             if (match instanceof SymbolNode) {
-                console.log(`Checking match '${match.value}'. Current character: '${match.value[index]}'`)
-                if (match.value[index] !== char) {
-                    if (matches.remove(match) === -1)
-                        console.log(`Match '${match.value}' does not exist!\n`)
-                    else
-                        console.log(`Removed match '${match.value}'.\nMatches: ${matches.map(x => (x as SymbolNode).value).join(", ")}\n`)
+                if (char === " ") {
+                    if (matches.length !== 1) {
+                        return false
+                    } else {
+                        index = 0
+                        matches = match.next
+                        continue outer
+                    }
+                }
+                else if (match.value[index] !== char) {
+                    if (matches.remove(match) === -1) {
+                        throw new Error(`Match '${match}' doesn't exist`)
+                    }
                 }
             }
             else {
@@ -28,5 +29,10 @@ export default function parse(input: string, CST: CSTNode) {
         }
         index++
     }
-    console.log("\n-----\n")
+
+    if (matches.length !== 1) {
+        return false
+    } else {
+        return true
+    }
 }
